@@ -345,7 +345,6 @@ button[type="submit"]:active {
     height: 30px;
     flex: 0 0 28px;
     display: block;
-    /* optional: soften corners if your SVG isn't already rounded */
     border-radius: 6px;
 }
 
