@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./assets/images/favicon-32x32.png" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Conference Ticket Generator</title>
+  </head>
+  <body>
+    <!-- ===== FORM ===== -->
+    <main class="form-container" id="formContainer">
+      <img
+        class="brand"
+        src="./assets/images/logo-full.svg"
+        alt="Coding Conf"
+      />
+      <div
+        style="
+          text-align: center;
+          position: absolute;
+          width: 773px;
+          top: -12.75rem;
+          left: 50%;
+          transform: translateX(-50%);
+        "
+      >
+        <h1>Your Journey to Coding Conf 2025 Starts Here!</h1>
+        <p id="hero-desc" class="muted">
+          Secure your spot at next year's biggest coding conference.
+        </p>
+      </div>
+
+      <form id="ticketForm" novalidate>
+        <label for="avatar">Upload Avatar</label>
+
+        <div
+          class="file-drop"
+          role="button"
+          tabindex="0"
+          aria-describedby="uploadHintText"
+        >
+          <span class="drop-icon" aria-hidden="true"></span>
+          <input
+            type="file"
+            id="avatar"
+            name="avatar"
+            accept="image/jpeg,image/png"
+          />
+          <span class="drop-instruction">Drag and drop or click to upload</span>
+        </div>
+
+        <div class="upload-hint" id="uploadHint">
+          <img
+            class="hint-icon"
+            src="./assets/images/icon-info.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <span id="uploadHintText"
+            >Upload your photo (JPG or PNG, max size: 500KB).</span
+          >
+        </div>
+
+        <small id="avatarError" class="error" aria-live="polite"></small>
+
+        <label for="fullName">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          required
+          aria-describedby="nameError"
+        />
+        <small id="nameError" class="error" aria-live="polite"></small>
+
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="example@email.com"
+          aria-describedby="emailError"
+        />
+        <small id="emailError" class="error" aria-live="polite"></small>
+
+        <label for="github">GitHub Username</label>
+        <input
+          type="text"
+          id="github"
+          name="github"
+          placeholder="@yourusername"
+        />
+
+        <button type="submit">Generate My Ticket</button>
+      </form>
+    </main>
+
+    <!-- ===== SUCCESS / TICKET ===== -->
+    <section
+      class="success-screen hidden"
+      id="ticketSection"
+      aria-live="polite"
+    >
+      <img
+        class="brand brand--success"
+        src="./assets/images/logo-full.svg"
+        alt="Coding Conf"
+      />
+
+      <h1 class="success-title">
+        Congrats, <span id="headlineName" class="accent"></span>!<br />
+        Your ticket is ready.
+      </h1>
+
+      <p class="success-copy">
+        We’ve emailed your ticket to
+        <a id="headlineEmail" href="mailto:">example@email.com</a>
+        and will send updates in the run up to the event.
+      </p>
+
+      <!-- Ticket (SVG background image) -->
+      <div class="ticket-card" role="img" aria-label="Your Coding Conf ticket">
+        <div class="ticket-top">
+          <img
+            class="ticket-logo"
+            src="./assets/images/logo-mark.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <div class="ticket-top-text">
+            <div class="ticket-brand">Coding Conf</div>
+            <div class="ticket-date">Jan 31, 2025 / Austin, TX</div>
+          </div>
+        </div>
+
+        <div class="ticket-bottom">
+          <img
+            id="ticketAvatar"
+            class="ticket-avatar"
+            src=""
+            alt="Your uploaded avatar"
+          />
+          <div class="ticket-person">
+            <div id="ticketName" class="ticket-name">Full Name</div>
+            <div id="ticketHandle" class="ticket-handle">
+              <img
+                src="./assets/images/icon-github.svg"
+                alt=""
+                aria-hidden="true"
+              />
+              <span id="ticketGithub">@yourusername</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ticket-serial" id="ticketSerial" aria-hidden="true">
+          #00000
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>

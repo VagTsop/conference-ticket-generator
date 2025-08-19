@@ -1,0 +1,606 @@
+/* ===================== */
+/* = Global & Backdrop = */
+/* ===================== */
+:root {
+    --clr-bg: hsl(248 70% 10%);
+    --clr-accent: hsl(7 88% 67%);
+    --clr-light: #fff;
+    --clr-muted: hsl(245 15% 58%);
+    --clr-error: hsl(7 88% 67%);
+    --drop-h: 135px;
+    --font-main: "Inconsolata", monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-main);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--clr-light);
+    background: var(--clr-bg);
+    min-height: 100svh;
+    display: grid;
+    place-content: center;
+    padding: 1rem;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background-image: radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
+        radial-gradient(70% 70% at 85% 85%, rgba(130, 0, 255, 0.35), transparent 45%),
+        url("./assets/images/pattern-circle.svg"), url("./assets/images/pattern-squiggly-line-bottom-mobile-tablet.svg"),
+        url("./assets/images/pattern-lines.svg"), url("./assets/images/background-mobile.png");
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat-y, no-repeat;
+    background-position:
+        15% 10%,
+        85% 85%,
+        80% 58%,
+        center bottom,
+        center top,
+        center;
+    background-size:
+        auto,
+        auto,
+        min(42vw, 360px) auto,
+        min(1200px, 94vw) auto,
+        100% auto,
+        cover;
+}
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: url("./assets/images/pattern-squiggly-line-top.svg") top right / min(1100px, 96vw) auto no-repeat;
+}
+
+/* ============ */
+/* = Helpers  = */
+/* ============ */
+.hidden {
+    display: none !important;
+}
+.muted {
+    color: #9d99b5;
+}
+.accent {
+    color: var(--clr-accent);
+}
+
+/* ============= */
+/* = Form Area = */
+/* ============= */
+.form-container {
+    width: min(640px, 94vw);
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.brand {
+    display: block;
+    margin-inline: auto;
+    height: 36px;
+    margin-bottom: 1rem;
+}
+
+.hero {
+    text-align: center;
+    width: min(773px, 94vw);
+    margin: 0 auto 2rem;
+}
+.hero h1 {
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4vw + 1rem, 3.2rem);
+}
+.hero p {
+    margin-top: 0.5rem;
+}
+
+form label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--clr-muted);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.09);
+    color: var(--clr-light);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+input[type="text"]:hover,
+input[type="email"]:hover {
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+input:focus {
+    outline: 2px solid var(--clr-accent);
+    border-color: transparent;
+}
+
+/* = Drop Zone = */
+.file-drop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: var(--drop-h);
+    padding: 1rem 1.25rem;
+    padding-top: 5.5rem;
+    padding-bottom: 10px;
+    margin-top: 0.5rem;
+    border: 2px dashed var(--clr-muted);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.09);
+    cursor: pointer;
+    transition:
+        border-color 0.2s,
+        background 0.2s,
+        transform 0.1s;
+    overflow: hidden;
+}
+.file-drop:hover,
+.file-drop:focus {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+.file-drop.is-dragover {
+    border-color: var(--clr-accent);
+}
+.file-drop input[type="file"] {
+    display: none;
+}
+.file-drop .drop-instruction {
+    opacity: 0.9;
+}
+.file-drop.has-image span:not(.drop-icon) {
+    visibility: hidden;
+}
+
+.drop-icon {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 2.2rem;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06) url("./assets/images/icon-upload.svg") center/20px 20px no-repeat;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Thumbnail + actions (fixed height) */
+.drop-thumb {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.drop-actions {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+.drop-actions button {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.5rem;
+    color: var(--clr-light);
+    font: inherit;
+    cursor: pointer;
+}
+.drop-actions .btn-remove {
+    background: rgba(255, 90, 70, 0.2);
+    border-color: rgba(255, 90, 70, 0.35);
+}
+.drop-actions button:hover {
+    filter: brightness(1.05);
+}
+
+/* Helper line under drop */
+.upload-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    color: #9d99b5;
+    font-size: 0.85rem;
+}
+.hint-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.95;
+    transition: filter 0.2s ease;
+}
+.upload-hint.is-error {
+    color: var(--clr-error);
+}
+.upload-hint.is-error .hint-icon {
+    filter: invert(32%) sepia(82%) saturate(2471%) hue-rotate(-8deg) brightness(98%) contrast(96%);
+}
+
+.error {
+    color: var(--clr-error);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Submit */
+button[type="submit"] {
+    margin-top: 2rem;
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    background: var(--clr-accent);
+    border: none;
+    border-radius: 10px;
+    color: var(--clr-light);
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.08s,
+        box-shadow 0.2s,
+        background 0.2s;
+    box-shadow: 0 8px 20px rgba(255, 90, 70, 0.25);
+}
+button[type="submit"]:hover,
+button[type="submit"]:focus {
+    background: hsl(7 71% 60%);
+}
+button[type="submit"]:active {
+    transform: translateY(1px);
+}
+
+/* ====================== */
+/* = Success + Ticket  = */
+/* ====================== */
+.success-screen {
+    text-align: center;
+    margin-block: 2rem 4rem;
+}
+.brand--success {
+    display: block;
+    margin: 0 auto 1.25rem;
+    height: 36px;
+}
+
+.success-title {
+    font-weight: 800;
+    line-height: 1.15;
+    font-size: clamp(2rem, 4vw + 1rem, 3rem);
+    margin: 0 auto 1rem;
+}
+.success-copy {
+    color: #bcb8d3;
+    max-width: 36rem;
+    margin: 0.5rem auto 2rem;
+}
+.success-copy a {
+    color: var(--clr-accent);
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+}
+
+.ticket-card {
+    --pad: 24px;
+    position: relative;
+    width: min(720px, 92vw);
+    aspect-ratio: 16 / 7.45;
+    margin: 0 auto;
+    background: url("./assets/images/pattern-ticket.svg") center / cover no-repeat;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+.ticket-top {
+    position: absolute;
+    left: var(--pad);
+    top: var(--pad);
+    text-align: left;
+
+    /* new */
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.ticket-logo {
+    width: 28px;
+    height: 30px;
+    flex: 0 0 28px;
+    display: block;
+    /* optional: soften corners if your SVG isn't already rounded */
+    border-radius: 6px;
+}
+
+.ticket-brand {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    margin-bottom: 0.25rem;
+    font-size: 2.3rem;
+}
+.ticket-date {
+    font-size: 1.2rem;
+    color: var(--clr-muted);
+}
+
+.ticket-bottom {
+    position: absolute;
+    left: var(--pad);
+    right: 40%;
+    bottom: var(--pad);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+}
+.ticket-avatar {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.2);
+}
+.ticket-name {
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+.ticket-handle {
+    margin-top: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--clr-muted);
+    font-size: 0.95rem;
+}
+.ticket-handle img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.9;
+}
+.ticket-handle.is-hidden {
+    display: none;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+    .form-container {
+        padding: 1rem;
+    }
+    .hero {
+        margin-bottom: 1.25rem;
+    }
+}
+
+.form-container {
+    position: relative;
+    padding-top: 4rem;
+}
+.brand {
+    position: absolute;
+    top: -21.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 36px;
+    margin: 0;
+}
+.upload-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    color: #9d99b5; /* matches your sample */
+    font-size: 0.85rem;
+}
+.upload-hint img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.9;
+}
+.upload-hint.is-error {
+    color: var(--clr-error);
+}
+
+.upload-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    color: #9d99b5;
+    font-size: 0.85rem;
+}
+.hint-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.95;
+}
+.upload-hint.is-error {
+    color: var(--clr-error);
+}
+.upload-hint.is-error .hint-icon {
+    filter: invert(32%) sepia(82%) saturate(2471%) hue-rotate(-8deg) brightness(98%) contrast(96%);
+}
+/* (optional) give the error a little space below the hint */
+#avatarError {
+    display: block;
+    margin-top: 0.35rem;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    body::before {
+        background-image: radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
+            radial-gradient(70% 70% at 85% 85%, rgba(130, 0, 255, 0.35), transparent 45%),
+            url("./assets/images/pattern-circle.svg"),
+            url("./assets/images/pattern-squiggly-line-bottom-mobile-tablet.svg"),
+            url("./assets/images/pattern-lines.svg"), url("./assets/images/background-tablet.png");
+        background-position:
+            15% 10%,
+            85% 85%,
+            78% 55%,
+            center bottom,
+            center top,
+            center;
+        background-size:
+            auto,
+            auto,
+            min(36vw, 420px) auto,
+            min(1400px, 96vw) auto,
+            100% auto,
+            cover;
+    }
+    .brand {
+        height: 38px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+    body::before {
+        background-image:
+            radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
+            radial-gradient(70% 70% at 85% 85%, rgba(130, 0, 255, 0.35), transparent 45%),
+            url("./assets/images/pattern-circle.svg"),
+            url("./assets/images/a2825292-229d-47f7-b90f-48869ecb3e46.png"),
+            /* bottom-left arcs */ url("./assets/images/pattern-squiggly-line-bottom-desktop.svg"),
+            url("./assets/images/pattern-lines.svg"),
+            url("./assets/images/background-desktop.png");
+        background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat-y, no-repeat;
+        background-position:
+            15% 10%,
+            85% 85%,
+            80% 55%,
+            left -1rem bottom -1rem,
+            left bottom,
+            center top,
+            center;
+        background-size:
+            auto,
+            auto,
+            min(34vw, 440px) auto,
+            min(48vw, 680px) auto,
+            min(1800px, 90vw) auto,
+            100% auto,
+            cover;
+    }
+}
+
+h1,
+h2 {
+    font-weight: 800;
+    font-size: 3.2rem;
+}
+.hidden {
+    display: none;
+}
+/* Center everything in the viewport */
+body {
+    display: grid;
+    place-content: center; /* centers the grid tracks vertically & horizontally */
+    min-height: 100svh; /* already present but keeps it explicit */
+}
+
+/* Remove extra margins so it sits truly centered */
+.form-container {
+    margin: 0 auto;
+}
+
+/* On small screens, fall back to top layout to avoid crowding */
+@media (max-width: 600px) {
+    body {
+        place-content: start;
+    }
+    .form-container {
+        margin: 1rem;
+    }
+}
+/* ===== Form Styles ===== */
+.form-container {
+    position: relative;
+    top: 131px;
+    border: none;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(1px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0);
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 0;
+    padding-top: 0;
+}
+.form-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.08) 60%, transparent);
+}
+/* Vertical serial on the right side of the ticket */
+.ticket-serial {
+    position: absolute;
+    top: 50%;
+    right: 41px;
+    /* left: -21px; */
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.55);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Optional: draw a light dashed “perforation” if your SVG doesn't already have one */
+.ticket-card::after {
+    content: "";
+    position: absolute;
+    top: 18px;
+    bottom: 18px;
+    right: 112px; /* adjust so it lines up with the perforation in your SVG */
+    width: 0;
+    border-right: 2px dashed rgba(255, 255, 255, 0.25);
+    pointer-events: none;
+}
