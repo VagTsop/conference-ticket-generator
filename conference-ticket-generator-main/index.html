@@ -8,24 +8,18 @@
     <title>Conference Ticket Generator</title>
   </head>
   <body>
+    <img
+      class="logo-fixed"
+      src="./assets/images/logo-full.svg"
+      alt="Coding Conf"
+    />
+
     <!-- ===== FORM ===== -->
     <main class="form-container" id="formContainer">
-      <img
-        class="brand"
-        src="./assets/images/logo-full.svg"
-        alt="Coding Conf"
-      />
-      <div
-        style="
-          text-align: center;
-          position: absolute;
-          width: 773px;
-          top: -12.75rem;
-          left: 50%;
-          transform: translateX(-50%);
-        "
-      >
-        <h1>Your Journey to Coding Conf 2025 Starts Here!</h1>
+      <div class="hero-container">
+        <h1 class="hero-title">
+          Your Journey to Coding Conf 2025 Starts Here!
+        </h1>
         <p id="hero-desc" class="muted">
           Secure your spot at next year's biggest coding conference.
         </p>
@@ -103,23 +97,18 @@
       id="ticketSection"
       aria-live="polite"
     >
-      <img
-        class="brand brand--success"
-        src="./assets/images/logo-full.svg"
-        alt="Coding Conf"
-      />
+      <div class="success-container">
+        <h1 class="success-title">
+          Congrats, <span id="headlineName" class="accent"></span>!<br />
+          Your ticket is ready.
+        </h1>
 
-      <h1 class="success-title">
-        Congrats, <span id="headlineName" class="accent"></span>!<br />
-        Your ticket is ready.
-      </h1>
-
-      <p class="success-copy">
-        We’ve emailed your ticket to
-        <a id="headlineEmail" href="mailto:">example@email.com</a>
-        and will send updates in the run up to the event.
-      </p>
-
+        <p class="success-copy">
+          We’ve emailed your ticket to
+          <a id="headlineEmail" href="mailto:">example@email.com</a>
+          and will send updates in the run up to the event.
+        </p>
+      </div>
       <!-- Ticket (SVG background image) -->
       <div class="ticket-card" role="img" aria-label="Your Coding Conf ticket">
         <div class="ticket-top">

@@ -34,16 +34,19 @@ body {
     position: relative;
 }
 
+/* Backdrop (mobile-first) */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -2;
     pointer-events: none;
-    background-image: radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
+    background-image:
+        radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
         radial-gradient(70% 70% at 85% 85%, rgba(130, 0, 255, 0.35), transparent 45%),
-        url("./assets/images/pattern-circle.svg"), url("./assets/images/pattern-squiggly-line-bottom-mobile-tablet.svg"),
-        url("./assets/images/pattern-lines.svg"), url("./assets/images/background-mobile.png");
+        url("./assets/images/pattern-circle.svg"),
+        url("./assets/images/pattern-squiggly-line-bottom-mobile-tablet.svg"), url("./assets/images/pattern-lines.svg"),
+        url("./assets/images/background-mobile.png");
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat-y, no-repeat;
     background-position:
         15% 10%,
@@ -55,18 +58,21 @@ body::before {
     background-size:
         auto,
         auto,
-        min(42vw, 360px) auto,
-        min(1200px, 94vw) auto,
-        100% auto,
+        min(38vw, 260px) auto,
+        /* smaller circle on mobile */ min(1100px, 95vw) auto,
+        /* mobile squiggly */ 100% auto,
         cover;
 }
+
+/* Top squiggly (mobile) */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: url("./assets/images/pattern-squiggly-line-top.svg") top right / min(1100px, 96vw) auto no-repeat;
+    background: url("./assets/images/pattern-squiggly-line-top.svg") top right / min(540px, 85vw) auto no-repeat;
+    top: 40px;
 }
 
 /* ============ */
@@ -195,7 +201,7 @@ input:focus {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
-/* Thumbnail + actions (fixed height) */
+/* Thumbnail + actions */
 .drop-thumb {
     position: absolute;
     top: 12px;
@@ -292,7 +298,7 @@ button[type="submit"]:active {
 /* ====================== */
 .success-screen {
     text-align: center;
-    margin-block: 2rem 4rem;
+    margin-block: 1.25rem 2rem;
 }
 .brand--success {
     display: block;
@@ -333,13 +339,10 @@ button[type="submit"]:active {
     left: var(--pad);
     top: var(--pad);
     text-align: left;
-
-    /* new */
     display: flex;
     align-items: baseline;
     gap: 12px;
 }
-
 .ticket-logo {
     width: 28px;
     height: 30px;
@@ -347,7 +350,6 @@ button[type="submit"]:active {
     display: block;
     border-radius: 6px;
 }
-
 .ticket-brand {
     font-weight: 500;
     letter-spacing: 0.3px;
@@ -398,75 +400,126 @@ button[type="submit"]:active {
 .ticket-handle.is-hidden {
     display: none;
 }
+.hero {
+    max-width: 773px;
+    margin: 0 auto 2rem;
+    text-align: center;
+}
+.hero-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+}
+.hero-logo {
+    width: 28px;
+    height: 30px;
+    border-radius: 6px;
+}
+.hero-brand-text {
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    font-size: 1.2rem;
+}
+.success-container {
+    padding-bottom: 100px;
+}
 
 /* Small screens */
 @media (max-width: 600px) {
     .form-container {
-        padding: 1rem;
+        padding: 1.25rem;
+        max-width: 360px;
+    }
+    .hero {
+        width: auto;
+        margin: 0 auto 1.25rem;
+    }
+    .brand {
+        position: static;
+        margin: 0 auto 0.75rem;
+        height: 30px;
     }
     .hero {
         margin-bottom: 1.25rem;
     }
+    .hero-title {
+        font-size: 2.3rem;
+    }
 }
 
+/* Layout helpers */
+body {
+    display: grid;
+    place-content: center;
+    min-height: 100svh;
+}
+.form-container {
+    margin: 0 auto;
+}
+@media (max-width: 600px) {
+    body {
+        place-content: start;
+    }
+    .form-container {
+        margin: 1rem;
+    }
+}
+
+/* Glass/spacing tweaks */
 .form-container {
     position: relative;
-    padding-top: 4rem;
+    top: 0; /* reset for mobile */
+    border: none;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(1px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0);
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 12px;
 }
-.brand {
+.form-container::after {
+    content: "";
     position: absolute;
-    top: -21.75rem;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 36px;
-    margin: 0;
-}
-.upload-hint {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    color: #9d99b5; /* matches your sample */
-    font-size: 0.85rem;
-}
-.upload-hint img {
-    width: 16px;
-    height: 16px;
-    opacity: 0.9;
-}
-.upload-hint.is-error {
-    color: var(--clr-error);
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.08) 60%, transparent);
 }
 
-.upload-hint {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    color: #9d99b5;
-    font-size: 0.85rem;
+/* Ticket serial */
+.ticket-serial {
+    position: absolute;
+    top: 50%;
+    right: 41px;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.55);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+    user-select: none;
+    pointer-events: none;
 }
-.hint-icon {
-    width: 16px;
-    height: 16px;
-    opacity: 0.95;
-}
-.upload-hint.is-error {
-    color: var(--clr-error);
-}
-.upload-hint.is-error .hint-icon {
-    filter: invert(32%) sepia(82%) saturate(2471%) hue-rotate(-8deg) brightness(98%) contrast(96%);
-}
-/* (optional) give the error a little space below the hint */
-#avatarError {
-    display: block;
-    margin-top: 0.35rem;
+.ticket-card::after {
+    content: "";
+    position: absolute;
+    top: 18px;
+    bottom: 18px;
+    right: 112px;
+    width: 0;
+    border-right: 2px dashed rgba(255, 255, 255, 0.25);
+    pointer-events: none;
 }
 
-/* Tablet */
+/* ===== Tablet ===== */
 @media (min-width: 768px) {
     body::before {
-        background-image: radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
+        background-image:
+            radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
             radial-gradient(70% 70% at 85% 85%, rgba(130, 0, 255, 0.35), transparent 45%),
             url("./assets/images/pattern-circle.svg"),
             url("./assets/images/pattern-squiggly-line-bottom-mobile-tablet.svg"),
@@ -489,117 +542,90 @@ button[type="submit"]:active {
     .brand {
         height: 38px;
     }
+    .hero-title {
+        text-align: center;
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 47px;
+        width: 724px;
+        position: relative;
+    }
+    .hero-container {
+        padding-bottom: 25px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
-/* Desktop */
+/* ===== Desktop ===== */
 @media (min-width: 1200px) {
     body::before {
         background-image:
             radial-gradient(60% 60% at 15% 10%, rgba(255, 255, 255, 0.06), transparent 40%),
             radial-gradient(70% 70% at 85% 85%, rgba(130, 0, 255, 0.35), transparent 45%),
-            url("./assets/images/pattern-circle.svg"),
-            url("./assets/images/a2825292-229d-47f7-b90f-48869ecb3e46.png"),
-            /* bottom-left arcs */ url("./assets/images/pattern-squiggly-line-bottom-desktop.svg"),
-            url("./assets/images/pattern-lines.svg"),
-            url("./assets/images/background-desktop.png");
-        background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat-y, no-repeat;
+            url("./assets/images/pattern-circle.svg"), url("./assets/images/pattern-squiggly-line-bottom-desktop.svg"),
+            url("./assets/images/pattern-lines.svg"), url("./assets/images/background-desktop.png");
+        background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat-y, no-repeat;
         background-position:
             15% 10%,
             85% 85%,
-            80% 55%,
-            left -1rem bottom -1rem,
+            calc(66% - 40px) 60%,
+            /* circle (tuned) */ left -1rem bottom -1rem,
             left bottom,
-            center top,
-            center;
+            center top;
         background-size:
             auto,
             auto,
-            min(34vw, 440px) auto,
-            min(48vw, 680px) auto,
-            min(1800px, 90vw) auto,
+            243px auto,
+            /* circle size */ min(1800px, 90vw) auto,
             100% auto,
             cover;
     }
 }
 
-h1,
-h2 {
-    font-weight: 800;
-    font-size: 3.2rem;
+/* Fixed logo always at top center */
+.logo-fixed {
+    position: fixed;
+    top: 35px; /* distance from top */
+    left: 50%;
+    transform: translateX(-50%);
+    height: 40px; /* adjust size */
+    z-index: 1000; /* stay above everything */
 }
-.hidden {
-    display: none;
-}
-/* Center everything in the viewport */
-body {
-    display: grid;
-    place-content: center; /* centers the grid tracks vertically & horizontally */
-    min-height: 100svh; /* already present but keeps it explicit */
-}
-
-/* Remove extra margins so it sits truly centered */
-.form-container {
-    margin: 0 auto;
-}
-
-/* On small screens, fall back to top layout to avoid crowding */
 @media (max-width: 600px) {
-    body {
-        place-content: start;
+    .logo-fixed {
+        height: 32px; /* smaller on mobile */
+        top: 35px;
     }
-    .form-container {
-        margin: 1rem;
-    }
-}
-/* ===== Form Styles ===== */
-.form-container {
-    position: relative;
-    top: 131px;
-    border: none;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(1px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0);
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 12px;
-    margin-top: 0;
-    padding-top: 0;
-}
-.form-container::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.08) 60%, transparent);
-}
-/* Vertical serial on the right side of the ticket */
-.ticket-serial {
-    position: absolute;
-    top: 50%;
-    right: 41px;
-    /* left: -21px; */
-    transform: translateY(-50%);
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.55);
-    text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
-    user-select: none;
-    pointer-events: none;
-}
 
-/* Optional: draw a light dashed “perforation” if your SVG doesn't already have one */
-.ticket-card::after {
-    content: "";
-    position: absolute;
-    top: 18px;
-    bottom: 18px;
-    right: 112px; /* adjust so it lines up with the perforation in your SVG */
-    width: 0;
-    border-right: 2px dashed rgba(255, 255, 255, 0.25);
-    pointer-events: none;
+    .form-container {
+        top: 40px;
+    }
+
+    .hero-title {
+        font-size: 35px;
+    }
+
+    .hero-container {
+        padding-bottom: 25px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .success-container {
+        padding-bottom: 10px;
+        display: flex;
+        padding-bottom: 10px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+    }
 }
