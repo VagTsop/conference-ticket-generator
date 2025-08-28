@@ -664,4 +664,21 @@ body {
     .ticket-top {
         align-items: unset;
     }
+    .hero-title {
+        font-size: 23px;
+        line-height: 1.2 !important;
+    }
+
+    #hero-desc {
+        font-size: 14px;
+    }
+
+    .success-title {
+        font-size: 23px;
+        line-height: 1.2 !important;
+    }
+
+    .success-copy {
+        font-size: 14px;
+    }
 }
